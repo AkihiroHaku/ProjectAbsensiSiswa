@@ -1,0 +1,95 @@
+* {
+    margin: 1;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    height: 100vh;
+    background: #0f6d1e; /* hijau */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-card {
+    background: #ffffff;
+    width: 360px;
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    text-align: center;
+}
+
+.input-icon {
+    position: relative;
+    margin-bottom: 18px;
+}
+
+.input-icon i {
+    position: absolute;
+    top: 50%;
+    left: 18px;
+    transform: translateY(-50%);
+    color: #1e9d2f;
+    font-size: 16px;
+}
+
+.input-icon input {
+    width: 100%;
+    padding: 14px 16px 14px 48px; /* kiri lebih besar untuk icon */
+    border-radius: 30px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 14px;
+}
+
+.input-icon input:focus {
+    border-color: #1e9d2f;
+}
+
+.logo h2 {
+    color: #0f6d1e;
+    margin-bottom: 5px;
+    font-size: 28px;
+}
+
+.logo p {
+    color: #777;
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    border-radius: 25px;
+    border: none;
+    background: #0f6d1e;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-login:hover {
+    background: #0c5c19;
+}
+
+.error-box {
+    background: #ffecec;
+    color: #d8000c;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    text-align: center;
+}
