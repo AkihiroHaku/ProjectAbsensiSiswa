@@ -3,7 +3,11 @@ session_start();
 require_once "../config/database.php";
 
 if (isset($_SESSION['login'])) {
-    header("Location: /ProjectAbsensiSiswa/dashboard.php");
+    if (isset($_SESSION['role']) && $_SESSION['role'] == 'guru') {
+        header("Location: /absensi/dashboard_guru.php");
+    } else {
+        header("Location: /absensi/dashboard.php");
+    }
     exit;
 }
 
@@ -24,13 +28,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user = mysqli_fetch_assoc($result);
 
         if (password_verify($password, $user['password'])) {
+            
+            // Set Session
             $_SESSION['login'] = true;
             $_SESSION['id_user'] = $user['id_user'];
             $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['nama_role'];
+            $_SESSION['role'] = $user['nama_role']; // Pastikan di database namanya 'admin' atau 'guru'
 
-            header("Location: /ProjectAbsensiSiswa/dashboard.php");
+            if ($user['nama_role'] == 'guru') {
+                header("Location: ../guru/index.php");
+            } else {
+                header("Location: /absensi/dashboard.php");
+            }
             exit;
+
         } else {
             $error = "Password salah!";
         }
@@ -55,12 +66,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="login-container">
         <div class="login-card">
 
-            <img src="../assets/img/smkislam.png" width="90">
+            <img src="../assets/img/smkislam.png" width="130" alt="SMK Islam Salakbrojo Logo">
 
             <h2>SMK Islam Salakbrojo</h2>
-            <p>Sistem Informasi
-                Absensi Siswa
-                SMK Islam Salakbrojo
+            <p>Sistem Informasi Absensi Siswa</p>
+                <p> SMK Islam Salakbrojo
             </p>
 
             <?php if ($error): ?>

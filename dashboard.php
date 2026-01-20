@@ -1,51 +1,103 @@
 <?php
 session_start();
+require_once "config/database.php";
 
-// Cegah akses tanpa login
-if (!isset($_SESSION['login'])) {
+// Cek Login
+if (!isset($_SESSION['role'])) {
     header("Location: auth/login.php");
     exit;
 }
 
-$role = $_SESSION['role']; // admin / guru / siswa
+$active_menu = 'dashboard';
+
+// --- LOGIC MENGHITUNG STATISTIK ---
+
+// 1. Hitung Total Siswa (Gabungan dari Kelas 10, 11, 12)
+// Kita pakai try-catch atau logika sederhana biar kalau tabelnya belum ada isinya tidak error fatal
+$jml_siswa = 0;
+
+// Cek Siswa Kelas 10
+$q10 = mysqli_query($conn, "SELECT COUNT(*) as jum FROM siswa_kelas10");
+$d10 = mysqli_fetch_assoc($q10);
+$jml_siswa += $d10['jum']; // Tambahkan ke total
+
+// Cek Siswa Kelas 11
+$q11 = mysqli_query($conn, "SELECT COUNT(*) as jum FROM siswa_kelas11");
+$d11 = mysqli_fetch_assoc($q11);
+$jml_siswa += $d11['jum']; // Tambahkan ke total
+
+// Cek Siswa Kelas 12
+$q12 = mysqli_query($conn, "SELECT COUNT(*) as jum FROM siswa_kelas12");
+$d12 = mysqli_fetch_assoc($q12);
+$jml_siswa += $d12['jum']; // Tambahkan ke total
+
+
+// 2. Hitung Guru
+$query_guru = mysqli_query($conn, "SELECT COUNT(*) as jum FROM guru");
+$data_guru  = mysqli_fetch_assoc($query_guru);
+$jml_guru   = $data_guru['jum'];
+
+
+// 3. Hitung Kelas
+$query_kelas = mysqli_query($conn, "SELECT COUNT(*) as jum FROM kelas");
+$data_kelas  = mysqli_fetch_assoc($query_kelas);
+$jml_kelas   = $data_kelas['jum'];
+
+
+// 4. Hitung Mapel
+$query_mapel = mysqli_query($conn, "SELECT COUNT(*) as jum FROM mapel");
+$data_mapel  = mysqli_fetch_assoc($query_mapel);
+$jml_mapel   = $data_mapel['jum'];
+
 ?>
 
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Absensi</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/sidebar.css">
 </head>
 <body>
 
-<div class="sidebar">
-    <h2>ABSENSI</h2>
-    <ul>
-        <li class="active">Dashboard</li>
+    <?php include "layout/sidebar.php"; ?>
 
-        <?php if ($role == 'admin') : ?>
-            <li>Data User</li>
-            <li>Data Kelas</li>
-        <?php endif; ?>
+    <div class="main">
+        
+        <div class="dashboard-header">
+            <h2>Dashboard</h2>
+            <p style="color:#666; margin-top:5px;">
+                Selamat Datang di Sistem Absensi Sekolah. Berikut adalah ringkasan data saat ini.
+            </p>
+        </div>
 
-        <?php if ($role == 'guru') : ?>
-            <li>Data Siswa</li>
-            <li>Absensi</li>
-        <?php endif; ?>
+        <div class="dashboard-cards">
+            
+            <div class="card-box bg-blue">
+                <div class="card-count"><?= $jml_siswa; ?></div>
+                <div class="card-title">Total Siswa</div>
+            </div>
 
-        <?php if ($role == 'siswa') : ?>
-            <li>Absensi Saya</li>
-        <?php endif; ?>
+            <div class="card-box bg-green">
+                <div class="card-count"><?= $jml_guru; ?></div>
+                <div class="card-title">Total Guru</div>
+            </div>
 
-        <li><a href="logout.php">Logout</a></li>
-    </ul>
-</div>
+            <div class="card-box bg-orange">
+                <div class="card-count"><?= $jml_kelas; ?></div>
+                <div class="card-title">Total Kelas</div>
+            </div>
 
-<div class="main">
-    <h1>Selamat Datang (<?= ucfirst($role); ?>)</h1>
-</div>
+            <div class="card-box bg-red">
+                <div class="card-count"><?= $jml_mapel; ?></div>
+                <div class="card-title">Total Mapel</div>
+            </div>
 
-<script src="js/script.js"></script>
+        </div>
+
+    </div>
+
 </body>
 </html>

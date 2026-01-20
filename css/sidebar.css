@@ -1,0 +1,38 @@
+/* ================= SIDEBAR ================= */
+.sidebar {
+    width: 260px;
+    background-color: #134d16;
+    color: #fff;
+    padding: 25px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar img {
+    margin-bottom: 35px;
+    border-radius: 15%;
+}
+
+.sidebar ul {
+    list-style: none;
+    width: 100%;
+}
+
+.sidebar ul li a {
+    display: block;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 12px 18px;
+    border-radius: 25px;
+    font-size: 15px;
+    transition: 0.3s;
+    text-align: center;
+    border-bottom: 1px solid #ffffff74;
+    cursor: pointer;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+    background-color: #ffffff5e;
+}

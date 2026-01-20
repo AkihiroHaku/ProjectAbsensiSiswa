@@ -1,15 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Contoh data (nanti diganti dari database PHP)
-    const totalSiswa = 30;
-    const hadir = 24;
-    const tidakHadir = totalSiswa - hadir;
-
-    document.getElementById("totalSiswa").innerText = totalSiswa;
-    document.getElementById("hadir").innerText = hadir;
-    document.getElementById("tidakHadir").innerText = tidakHadir;
-});
-
-document.addEventListener("DOMContentLoaded", function () {
     const errorBox = document.getElementById("error-message");
 
     if (errorBox) {
@@ -23,3 +12,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 3500);
     }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const currentPage = window.location.pathname.split("/").pop();
+
+    document.querySelectorAll(".menu a").forEach(link => {
+        const page = link.getAttribute("href").split("/").pop();
+
+        if (page === currentPage) {
+            link.classList.add("active");
+        }
+    });
+});
+
+

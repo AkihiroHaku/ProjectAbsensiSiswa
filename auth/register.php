@@ -1,9 +1,9 @@
 <?php
 require_once "../config/database.php";
 
-$username = "farul";
-$password = "farul";   // password asli
-$id_role  = 1;         // 1=admin, 2=guru, 3=siswa
+$username = "faruk";
+$password = "faruk";   // password asli
+$id_role  = 2;         // 1=admin, 2=guru, 3=siswa
 
 // HASH PASSWORD
 $password_hash = password_hash($password, PASSWORD_DEFAULT);
